@@ -93,16 +93,20 @@ void imprimir_fila(Fila* f){
 
 int remover_produto(Fila* f, int id) {
     No* aux = f->inicio;
+    No* ant = NULL;
 
     while(aux != NULL) {
         
         if(aux->produto->id == id) {
             
-            if(aux->prox != NULL) {
+            if(ant == NULL) {
                 f->inicio = aux->prox;
             } else {
-                f->inicio = NULL;
-                f->fim = NULL;
+                ant->prox = aux->prox;
+            }
+            
+            if(aux->prox == NULL) {
+                f->fim = ant;
             }
             
             imprimir_produto(aux->produto);
@@ -110,22 +114,12 @@ int remover_produto(Fila* f, int id) {
             
             return 1;
         
-        }else{
-            return 0;
         }
         
+        ant = aux;
         aux = aux->prox;
     }
-}
-
-int existe_produto(Fila* f, int id) {
-    No* aux = f->inicio;
-    while(aux != NULL) {
-        if(aux->produto->id == id) {
-            return 1;
-        }
-        aux = aux->prox;
-    }
+    
     return 0;
 }
 
